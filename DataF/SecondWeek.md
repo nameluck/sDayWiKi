@@ -1,4 +1,11 @@
-﻿&ensp;&ensp;&ensp;&ensp;初步了解了一下bert模型，并在电脑运行，我电脑计算资源不行好几年前的i5（网上搜到的说要10G显存），原本数据集有7000多组数据，我只用了100多组，运行了大约20min左右，在验证集上的准确率是0.68（之后又试了一次，没这么高了）.已经挺不错的了，毕竟我用的训练数据太少了，等我多训练一点数据，再来更新一下图。
+---
+title: 第二周bert简单使用
+categories: DataF
+author: alan
+---
+
+## Bert简单使用
+&ensp;&ensp;&ensp;&ensp;初步了解了一下bert模型，并在电脑运行，我电脑计算资源不行好几年前的i5（网上搜到的说要10G显存），原本数据集有7000多组数据，我只用了100多组，运行了大约20min左右，在验证集上的准确率是0.68（之后又试了一次，没这么高了）.已经挺不错的了，毕竟我用的训练数据太少了，等我多训练一点数据，再来更新一下图。
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20191116010452264.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2ltaXNzeW91YWx3YWx5cw==,size_16,color_FFFFFF,t_70)
 运行bert模型做情感分类主要步骤：
 
@@ -64,7 +71,7 @@ class MyTaskProcessor(DataProcessor):
      00005a3efe934a19adc0b69b05faeae7	九江办好人民满意教育近年来九江市紧紧围绕人本教育公平教育优质教育幸福教育的目标努力办好人民满意教育促进了义务教育均衡发展农村贫困地区办学条件改善目前该市特色教育学校有所青少年校园足球水平领跑全省该市大力推进义务教育均衡发展素质教育成果丰硕公办幼儿园占比为普惠性幼儿园覆盖率达到学前三年毛入园率达入园难入园贵得到有效缓解浔阳区等个县市区顺利通过义务教育发展基本均衡县国家认定去年月九江一中获评全国未成年人思想道德建设工作先进单位同文中学双峰小学和九江小学获评第一届全国文明校园该市切实改善义务教育学校特别是农村学校办学条件努力缩小城乡教育差距近年累计投入资金近亿元新建改建和扩建校舍面积共多万平方米农村办学条件明显改善同时引进教师名培训教师万人次较好解决了城乡师资结构性缺编教师老龄化术科教师缺乏等问题为消除中职学校散小弱办学现象该市率先启动职业教育资源整合改革试点工作采取撤销合并转型共建等措施对不符合达标条件的中职学校进行整合目前全市原有的所中职学校已整合为所达标中职学校有所同时大力开展产教融合校企对接等工作年均为企业输送技能型人才多人记者何深宝	0
 ------
 
-另一种方案是，事先不对test.csv进行处理，在def _create_examples函数中，判断是否为test集，若为测试集，就添加一列label。
+&ensp;&ensp;&ensp;&ensp;另一种方案是，事先不对test.csv进行处理，在def _create_examples函数中，判断是否为test集，若为测试集，就添加一列label。
 ### 修改main函数中Processor字典
 ```python
  processors = {
@@ -106,6 +113,7 @@ class MyTaskProcessor(DataProcessor):
 python run_classifier.py --task_name=mytask --do_predict=true --data_dir=data --vocab_file=chinese_L-12_H-768_A-12\vocab.txt --bert_config_file=chinese_L-12_H-768_A-12\bert_config.json --init_checkpoint=output --max_seq_length=128 --output_dir=output
  ```
 &ensp;&ensp;&ensp;&ensp;训练命令运行完后，会在output文件夹中得到模型，训练命令运行完后得到的结果如下，在test_results.tsv文件中：
+
  ![在这里插入图片描述](https://img-blog.csdnimg.cn/20191119231940226.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2ltaXNzeW91YWx3YWx5cw==,size_16,color_FFFFFF,t_70)
  
  3 结果分析处理
@@ -120,13 +128,13 @@ python run_classifier.py --task_name=mytask --do_predict=true --data_dir=data --
 - [ ] 对数据集处理，去除停用词，对title和content不再进行简单合并
 - [ ] 是否可以和Lstm相结合反正改的地方太多了，先提交一版吧
  
- 参考博客：
+ #### 参考博客：
  
- [https://github.com/DefuLi/Emotional-Analysis-of-Internet-News/tree/master/CCF_NewsSenAna本篇主要参考了数据预处理代码](https://github.com/DefuLi/Emotional-Analysis-of-Internet-News/tree/master/CCF_NewsSenAna)
- [https://blog.csdn.net/qq874455953/article/details/90276116](https://blog.csdn.net/qq874455953/article/details/90276116)
-[https://blog.csdn.net/renxingkai/article/details/87605693](https://blog.csdn.net/renxingkai/article/details/87605693)
- [https://blog.csdn.net/pirage/article/details/85164063](https://blog.csdn.net/pirage/article/details/85164063)
- [https://blog.csdn.net/qq_43012160/article/details/102767508](https://blog.csdn.net/qq_43012160/article/details/102767508)
+- [https://blog.csdn.net/qq874455953/article/details/90276116](https://blog.csdn.net/qq874455953/article/details/90276116)
+- [https://blog.csdn.net/renxingkai/article/details/87605693](https://blog.csdn.net/renxingkai/article/details/87605693)
+- [https://blog.csdn.net/qq_43012160/article/details/102767508](https://blog.csdn.net/qq_43012160/article/details/102767508)
+- [https://blog.csdn.net/pirage/article/details/85164063](https://blog.csdn.net/pirage/article/details/85164063)
+- [https://github.com/DefuLi/Emotional-Analysis-of-Internet-News/tree/master/CCF_NewsSenAna主要参考数据预处理代码](https://github.com/DefuLi/Emotional-Analysis-of-Internet-News/tree/master/CCF_NewsSenAna)
 
   
 
