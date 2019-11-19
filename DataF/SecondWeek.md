@@ -112,7 +112,7 @@ class MyTaskProcessor(DataProcessor):
   ```
 python run_classifier.py --task_name=mytask --do_predict=true --data_dir=data --vocab_file=chinese_L-12_H-768_A-12\vocab.txt --bert_config_file=chinese_L-12_H-768_A-12\bert_config.json --init_checkpoint=output --max_seq_length=128 --output_dir=output
  ```
-&ensp;&ensp;&ensp;&ensp;训练命令运行完后，会在output文件夹中得到模型，训练命令运行完后得到的结果如下，在test_results.tsv文件中：
+&ensp;&ensp;&ensp;&ensp;训练命令运行完后，会在output文件夹中得到模型，测试命令运行完后得到的结果如下，在test_results.tsv文件中：
 
  ![在这里插入图片描述](https://img-blog.csdnimg.cn/20191119231940226.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2ltaXNzeW91YWx3YWx5cw==,size_16,color_FFFFFF,t_70)
  
