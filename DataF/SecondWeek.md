@@ -11,7 +11,9 @@
          我的环境:tensorflow 1.x (需要>=1.11.0),python3,开发工具 :Pycharm
 ------
 项目目录结构
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/2019111311160130.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2ltaXNzeW91YWx3YWx5cw==,size_16,color_FFFFFF,t_70)
+
 &ensp;&ensp;&ensp;&ensp;以CCF大数据竞赛题目，[互联网情感分析](https://www.datafountain.cn/competitions/350)为例子，题目中只给了训练集和测试集，首先先对训练集两个文件做关于id的映射，再去除训练集和测试集合的多余符号，将title字段和content字段合并，划分训练集和验证集，预处理代码和数据如下：
 链接：https://pan.baidu.com/s/1TF0i6hq-5ndXb3WBPb4wEg 提取码：04le 
 &ensp;&ensp;&ensp;&ensp;数据预处理非常重要，处理的好，可以使结果提升好多，开始一点不会，对pandas的函数了解太少，照着大佬的github敲的，挨个函数语句debug的，预处理最好能写个模板，之后可以直接套。我咋能这么菜，哈哈，参考链接放在了文章最后。
@@ -80,30 +82,34 @@ class MyTaskProcessor(DataProcessor):
   python run_classifier.py --task_name=mytask --do_train=true --do_eval=true --data_dir=data --vocab_file=chinese_L-12_H-768_A-12\vocab.txt --bert_config_file=chinese_L-12_H-768_A-12\bert_config.json --init_checkpoint=chinese_L-12_H-768_A-12\bert_model.ckpt --max_seq_length=128 --train_batch_size=32 --learning_rate=1e-5 --num_train_epochs=3.0 --output_dir=output
   ```
   下面是一些参数的意思：
-  | 参数        | meanings   |  
-| --------   | -----:  | :----:  |
-| taskname     | main函数字典中MyTaskProcessor的key值，如我们代码中的mytask
-| do_train       |   是否做训练  (true or false) |   
-| do_eval       |    是否做验证    | 
-| do_predict       |    是否做测试    | 
-| data_dir     | 存放数据集的文件夹 |
-| output_dir      |  输出结果文件夹  |   
-  | 可变参数        | meanings  |  
-| max_seq_length      |  输入文本序列的最大长度，也就是每个样本的最大处理长度，多余会去掉，不够会补齐。最大值512。   |   
-| train_batch_size      |   训练模型求梯度时，批量处理数据集的大小。即每次训练在训练集中取batchsize个样本训练,值越大，训练速度越快，内存占用越多。  | 
-|eval_batch_size     |    验证时，批量处理数据集的大小。同上   | 
-|predict_batch_size     |   测试时，批量处理数据集的大小。同上。   | 
-|num_train_epochs     |    迭代次数,1个epoch等于使用训练集中的全部样本训练一次，通俗的讲epoch的值就是整个数据集被轮几次。    | 
-|   learning_rate:    | 反向传播更新权重时，步长大小。值越大，训练速度越快。值越小，训练速度越慢，收敛速度慢，容易过拟合。迁移学习中，一般设置较小的步长（小于2e-4）   | 
-|save_checkpoints_steps   |    检查点的保存频率。 （我没有用到）  | 
-|warmup_proportion   |    检查点的保存频率（我也没有用到）   | 
+  
+|参数|meanings|  
+|------|---|
+|taskname|main函数字典中MyTaskProcessor的key值，如我们代码中的mytask|
+|do_train| 是否做训练  (true or false)|
+|do_eval | 是否做验证 |
+|do_predict| 是否做测试|
+|data_dir|存放数据集的文件夹|
+|output_dir| 输出结果文件夹|
+|可变参数|meanings|
+|max_seq_length|输入文本序列的最大长度，也就是每个样本的最大处理长度，多余会去掉，不够会补齐。最大值512。|
+|train_batch_size|训练模型求梯度时，批量处理数据集的大小。即每次训练在训练集中取batchsize个样本训练,值越大，训练速度越快，内存占用越多。 |
+|eval_batch_size|验证时，批量处理数据集的大小。同上|
+|predict_batch_size|测试时，批量处理数据集的大小。同上。|
+|num_train_epochs|迭代次数,1个epoch等于使用训练集中的全部样本训练一次，通俗的讲epoch的值就是整个数据集被轮几次。 |
+|learning_rate:| 反向传播更新权重时，步长大小。值越大，训练速度越快。值越小，训练速度越慢，收敛速度慢，容易过拟合。迁移学习中，一般设置较小的步长（小于2e-4）|
+|save_checkpoints_steps |检查点的保存频率。 （我没有用到）|
+|warmup_proportion|检查点的保存频率（我也没有用到）|
+
 2.测试命令
   ```
 python run_classifier.py --task_name=mytask --do_predict=true --data_dir=data --vocab_file=chinese_L-12_H-768_A-12\vocab.txt --bert_config_file=chinese_L-12_H-768_A-12\bert_config.json --init_checkpoint=output --max_seq_length=128 --output_dir=output
  ```
 &ensp;&ensp;&ensp;&ensp;训练命令运行完后，会在output文件夹中得到模型，训练命令运行完后得到的结果如下，在test_results.tsv文件中：
  ![在这里插入图片描述](https://img-blog.csdnimg.cn/20191119231940226.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2ltaXNzeW91YWx3YWx5cw==,size_16,color_FFFFFF,t_70)
+ 
  3 结果分析处理
+ 
  &ensp;&ensp;&ensp;&ensp;m行n列表示第m个测试数据，对n种分类标签的概率，哪个值大我们就默认分类结果是哪个，（我这个效果明显很不好，非常不好，100组训练数据也就这样了，等我再训练多一点数据，放个效果好一点的图），运行get_results.py在output文件中得到最终对测试集的分类结果。
  
  
